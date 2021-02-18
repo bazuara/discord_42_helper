@@ -17,4 +17,5 @@ p "Full name: " + answer['usual_full_name']
 p "E-mail: " + answer['email']
 p "Evaluation points: " + answer['correction_point'].to_s
 p "Piscine: "+ answer['pool_month'].capitalize + ' ' + answer['pool_year']
-
+#print JSON.pretty_generate(answer) 
+p answer['cursus_users'][3]['blackholed_at']
