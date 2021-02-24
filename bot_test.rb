@@ -15,5 +15,9 @@ bot.command :ping do |msg|
 	msg.respond "pero tu eres tonto? ya está bien con tanto ping!"
 end
 
+bot.command :repeat do |msg|
+	msg.respond "#{msg.content}"
+end
+
 at_exit {bot.stop}
 bot.run
