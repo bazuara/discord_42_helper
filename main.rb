@@ -24,15 +24,17 @@ client = OAuth2::Client.new(client_id, client_secret, site: "https://api.intra.4
 bot.command :info do |msg|
 	user = msg.content.split[2]
 	unless user == nil
-		msg.respond "Aquí tienes la info del usuario que has pedido"
-		msg.respond " User solicitado #{user}"
 		token = client.client_credentials.get_token
 		answer = token.get("/v2/users/#{user}").parsed
+		msg.respond "Aquí tienes la info de #{user}"
 		msg.respond "Full name: " + answer['usual_full_name']
 		msg.respond "E-mail: " + answer['email']
 		msg.respond "Evaluation points: " + answer['correction_point'].to_s
 		msg.respond "Piscine: " + answer['pool_month'].capitalize + ' ' + answer['pool_year']
-		msg.respond "Blackholed at " + answer['cursus_users'].last['blackholed_at']
+		str_date = answer['cursus_users'].last['blackholed_at']
+		date = DateTime.parse(str_date)
+		time_to_blackhole = date - DateTime.now
+		msg.respond "Blackhole in #{time_to_blackhole.to_i} days"
 	else
 		msg.respond "Necesito un usuario para hacer eso"
 	end
