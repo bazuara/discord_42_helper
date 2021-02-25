@@ -4,4 +4,4 @@ copy credentials.yml to secret.credentials.yml and fill your api and bot credent
 
 just run bundle install && ruby main.rb
 
-*THIS IS A WORK IN PROGRESS, USE ONLY IF YOU KNOW WHAT ARE YOU DOING*
+*THIS IS A WORK IN PROGRESS, USE ONLY IF YOU KNOW WHAT YOU ARE DOING*
