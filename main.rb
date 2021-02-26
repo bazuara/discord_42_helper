@@ -27,14 +27,24 @@ bot.command :info do |msg|
 		token = client.client_credentials.get_token
 		answer = token.get("/v2/users/#{user}").parsed
 		msg.respond "Aquí tienes la info de #{user}"
-		msg.respond "Full name: " + answer['usual_full_name']
-		msg.respond "E-mail: " + answer['email']
-		msg.respond "Evaluation points: " + answer['correction_point'].to_s
-		msg.respond "Piscine: " + answer['pool_month'].capitalize + ' ' + answer['pool_year']
+		unless answer['usual_full_name'] == nil
+			msg.respond "Full name: " + answer['usual_full_name']
+		end
+		unless answer['email'] == nil
+			msg.respond "E-mail: " + answer['email']
+		end
+		unless answer['correction_points'].to_s == nil
+			msg.respond "Evaluation points: " + answer['correction_point'].to_s
+		end
+		unless answer['pool_year'] == nil
+			msg.respond "Piscine: " + answer['pool_month'].capitalize + ' ' + answer['pool_year']
+		end
 		str_date = answer['cursus_users'].last['blackholed_at']
 		date = DateTime.parse(str_date)
 		time_to_blackhole = date - DateTime.now
-		msg.respond "Blackhole in #{time_to_blackhole.to_i} days"
+		unless time_to_blackhole < 0
+			msg.respond "Blackhole in #{time_to_blackhole.to_i} days"
+		end
 	else
 		msg.respond "Necesito un usuario para hacer eso"
 	end
