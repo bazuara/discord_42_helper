@@ -1,2 +1,0 @@
-docker build -t ruby-docker .
-docker run -it -v $(pwd):/usr/app --rm ruby-docker bash
