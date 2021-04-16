@@ -21,7 +21,7 @@ client_secret = config["api"]["client_secret"]
 
 client = OAuth2::Client.new(client_id, client_secret, site: "https://api.intra.42.fr")
 
-#info command
+# info command. Receives username, returns full name, email, ev points piscine and blackhole days
 bot.command :info do |msg|
 	user = msg.content.split[2]
 	unless user == nil
@@ -41,7 +41,7 @@ bot.command :info do |msg|
 	end
 end
 
-#megatron command
+# megatron command. Receives month (in english) and year, returns user with achievement. Receives nothing and returns list of last wining users
 bot.command :megatron do |msg|
 	str = ""
 	month = msg.content.split[2]
@@ -63,7 +63,7 @@ bot.command :megatron do |msg|
 	end
 end
 
-
+# repeat command. Receives a string and repeats it
 bot.command :repeat do |msg|
 	msg.respond "#{msg.content}"
 end
