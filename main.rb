@@ -21,6 +21,11 @@ client_secret = config["api"]["client_secret"]
 
 client = OAuth2::Client.new(client_id, client_secret, site: "https://api.intra.42.fr")
 
+#classic ping
+bot.message(with_text: 'Ping!') do |event|
+  event.respond 'Pong!'
+end
+
 # info command. Receives username, returns full name, email, ev points piscine and blackhole days
 bot.command :info do |msg|
 	user = msg.content.split[2]
