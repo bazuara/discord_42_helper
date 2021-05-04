@@ -27,7 +27,8 @@ bot.message(with_text: 'Ping!') do |event|
   m.edit "Pong! Time taken: #{Time.now - event.timestamp} seconds."
 end
 
-# info command. Receives username, returns full name, email, ev points piscine and blackhole days
+#INFO
+info_desc = "info: Receives username, returns full name, email, ev points piscine and blackhole days"
 bot.command :info do |msg|
 	user = msg.content.split[2]
 	unless user == nil
@@ -47,7 +48,8 @@ bot.command :info do |msg|
 	end
 end
 
-# megatron command. Receives month (in english) and year, returns user with achievement. Receives nothing and returns list of last wining users
+#MEGATRON
+mega_desc = "megatron: Receives month (in english) and year, returns user with achievement. Receives nothing and returns list of last wining users"
 bot.command :megatron do |msg|
 	str = ""
 	month = msg.content.split[2]
@@ -69,7 +71,8 @@ bot.command :megatron do |msg|
 	end
 end
 
-# Russian Roulette command. Starts with empty barrel, loads a bullet, fires until bang
+# Russian Roulette
+rr_desc = "rr: Mini game. Starts with empty barrel, loads a bullet, fires until bang"
 bullet = 6
 barrel = 0
 tries = 0
@@ -87,8 +90,8 @@ bot.command :rr do |msg|
 			puts barrel = 0
 			#msg.respond "Debug: bullet: #{bullet.to_s} barrel #{barrel.to_s} tries #{tries}"
 		else
-			msg.respond "Click \xF0\x9F\x98\xB0"
-			puts tries =+ 1
+			msg.respond "Click (#{tries}/6) \xF0\x9F\x98\xB0"
+			puts tries += 1
 			#msg.respond "Debug: bullet: #{bullet.to_s} barrel #{barrel.to_s} tries #{tries}"
 		end
 	end
@@ -97,6 +100,16 @@ end
 # repeat command. Receives a string and repeats it
 bot.command :repeat do |msg|
 msg.respond "#{msg.content}"
+end
+
+#help function. List all avalible bot functions
+bot.message(with_text: 'help') do |event|
+	event.respond "All commands except Ping! and help must be preceeded with '!42 '"
+	event.respond "Ping!: Returns a timed pong back\n"
+	event.respond "help: Returns this menu\n"
+	event.respond "#{info_desc} \n"
+	event.respond "#{mega_desc} \n"
+	event.respond "#{rr_desc} \n"
 end
 
 #exit command
