@@ -23,7 +23,8 @@ client = OAuth2::Client.new(client_id, client_secret, site: "https://api.intra.4
 
 #classic ping
 bot.message(with_text: 'Ping!') do |event|
-  event.respond 'Pong!'
+  m = event.respond 'Pong!'
+  m.edit "Pong! Time taken: #{Time.now - event.timestamp} seconds."
 end
 
 # info command. Receives username, returns full name, email, ev points piscine and blackhole days
