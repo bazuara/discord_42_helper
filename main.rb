@@ -68,9 +68,34 @@ bot.command :megatron do |msg|
 	end
 end
 
+# Russian Roulette command. Starts with empty barrel, loads a bullet, fires until bang
+bullet = 6
+barrel = 0
+tries = 0
+bot.command :rr do |msg|
+	if tries == 0
+		bullet = rand(5) + 1
+		msg.respond "Loading new barrel \xE2\x99\xBB"
+		tries = 1
+	end
+	if tries != 0
+		barrel += 1
+		if barrel == bullet	
+			msg.respond "Bang! You are dead \xF0\x9F\x98\xB5"
+			puts tries = 0
+			puts barrel = 0
+			#msg.respond "Debug: bullet: #{bullet.to_s} barrel #{barrel.to_s} tries #{tries}"
+		else
+			msg.respond "Click \xF0\x9F\x98\xB0"
+			puts tries =+ 1
+			#msg.respond "Debug: bullet: #{bullet.to_s} barrel #{barrel.to_s} tries #{tries}"
+		end
+	end
+end
+
 # repeat command. Receives a string and repeats it
 bot.command :repeat do |msg|
-	msg.respond "#{msg.content}"
+msg.respond "#{msg.content}"
 end
 
 #exit command
