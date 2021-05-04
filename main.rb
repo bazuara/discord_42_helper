@@ -78,7 +78,7 @@ barrel = 0
 tries = 0
 bot.command :rr do |msg|
 	if tries == 0
-		bullet = rand(5) + 1
+		bullet = rand(6) + 1
 		msg.respond "Loading new barrel \xE2\x99\xBB"
 		tries = 1
 	end
