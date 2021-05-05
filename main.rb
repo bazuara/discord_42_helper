@@ -6,10 +6,16 @@ require 'json'
 require 'oauth2'
 
 #bot config
-bot_config = YAML.load_file("secret.credentials.yml")
-bot_token  = bot_config["bot_discord"]["bot_token"]
-bot_id     = bot_config["bot_discord"]["bot_id"]
-bot_prefix = bot_config["bot_discord"]["bot_prefix"]
+begin
+	bot_config = YAML.load_file("secret.credentials.yml")
+	bot_token  = bot_config["bot_discord"]["bot_token"]
+	bot_id     = bot_config["bot_discord"]["bot_id"]
+	bot_prefix = bot_config["bot_discord"]["bot_prefix"]
+rescue
+	puts "Wrong secret.credentials.yml file, are you sure it exist and is formated ok?"
+	exit
+end
+
 
 bot = Discordrb::Commands::CommandBot.new token: "#{bot_token}",
 	client_id: "#{bot_id}" , prefix: "#{bot_prefix}"
@@ -28,7 +34,7 @@ bot.message(with_text: 'Ping!') do |event|
 end
 
 #INFO
-info_desc = "info: Receives username, returns full name, email, ev points piscine and blackhole days"
+#Receives username, returns full name, email, ev points piscine and blackhole days"
 bot.command :info do |msg|
 	user = msg.content.split[2]
 	unless user == nil
@@ -49,7 +55,7 @@ bot.command :info do |msg|
 end
 
 #MEGATRON
-mega_desc = "megatron: Receives month (in english) and year, returns user with achievement. Receives nothing and returns list of last wining users"
+#Receives month (in english) and year, returns user with achievement. Receives nothing and returns list of last wining users
 bot.command :megatron do |msg|
 	str = ""
 	month = msg.content.split[2]
@@ -72,7 +78,7 @@ bot.command :megatron do |msg|
 end
 
 # Russian Roulette
-rr_desc = "rr: Mini game. Starts with empty barrel, loads a bullet, fires until bang"
+# Mini game. Starts with empty barrel, loads a bullet, fires until bang
 bullet = 6
 barrel = 0
 tries = 0
@@ -104,12 +110,20 @@ end
 
 #help function. List all avalible bot functions
 bot.message(with_text: 'help') do |event|
-	event.respond "All commands except Ping! and help must be preceeded with '!42 '"
-	event.respond "Ping!: Returns a timed pong back\n"
-	event.respond "help: Returns this menu\n"
-	event.respond "#{info_desc} \n"
-	event.respond "#{mega_desc} \n"
-	event.respond "#{rr_desc} \n"
+	event.channel.send_embed("Help menu") do |embed|
+  	embed.title = "Hello sir, I'm Jarvis and I'm here to help you"
+  	embed.url = "https://profile.intra.42.fr/users/bazuara"
+	embed.description = "This Bot is brought to you by [bazuara](https://profile.intra.42.fr/users/bazuara) for anyone who dares to use it. This are my actual commands:"
+
+	embed.thumbnail = Discordrb::Webhooks::EmbedThumbnail.new(url: "https://raw.githubusercontent.com/bazuara/ruby-tool-for-42/master/resources/JARVIS.png")
+	embed.footer = Discordrb::Webhooks::EmbedFooter.new(icon_url: "https://cdn.discordapp.com/embed/avatars/0.png")
+
+	embed.add_field(name: "Ping!", value: "Returns a timed \"pong\" back")
+	embed.add_field(name: "help", value: "Returns this menu")
+	embed.add_field(name: "!42 info USERNAME", value: "Receives username, returns full name, email, ev points piscine and blackhole days")
+	embed.add_field(name: "!42 megatron MONTH YEAR", value: "Receives month (in english) and year, returns user with achievement. Or receives nothing and returns list of last wining users")
+	embed.add_field(name: "!42 rr", value: "Roussian Roulette mini game. Starts with empty barrel, loads a bullet, fires until bang")
+	end
 end
 
 #exit command
