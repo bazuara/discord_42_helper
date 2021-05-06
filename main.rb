@@ -40,15 +40,21 @@ bot.command :info do |msg|
 	unless user == nil
 		token = client.client_credentials.get_token
 		answer = token.get("/v2/users/#{user}").parsed
-		msg.respond "Aquí tienes la info de #{user}"
-		msg.respond "Full name: " + answer['usual_full_name']
-		msg.respond "E-mail: " + answer['email']
-		msg.respond "Evaluation points: " + answer['correction_point'].to_s
-		msg.respond "Piscine: " + answer['pool_month'].capitalize + ' ' + answer['pool_year']
-		str_date = answer['cursus_users'].last['blackholed_at']
-		date = DateTime.parse(str_date)
-		time_to_blackhole = date - DateTime.now
-		msg.respond "Blackhole in #{time_to_blackhole.to_i} days"
+		coalition = token.get("/v2/users/#{user}/coalitions").parsed[0]
+		msg.channel.send_embed do |embed|
+			embed.title = "#{user.capitalize}"
+			embed.colour = coalition['color']
+			embed.thumbnail = Discordrb::Webhooks::EmbedThumbnail.new(url: answer['image_url'])
+			embed.add_field(name: "Nombre completo", value: answer['usual_full_name'])
+			embed.add_field(name: "Coalition", value: coalition['name'])
+			embed.add_field(name: "Email", value: answer['email'])
+			embed.add_field(name: "Piscine", value: answer['pool_month'].capitalize + ' ' + answer['pool_year'])
+			embed.add_field(name: "Evaluation points", value: answer['correction_point'].to_s, inline: true)
+			str_date = answer['cursus_users'].last['blackholed_at']
+			date = DateTime.parse(str_date)
+			time_to_blackhole = date - DateTime.now
+			embed.add_field(name: "Blackholed in", value: "#{time_to_blackhole.to_i} days", inline: true)
+		end
 	else
 		msg.respond "Necesito un usuario para hacer eso"
 	end
@@ -110,7 +116,7 @@ end
 
 #help function. List all avalible bot functions
 bot.message(with_text: 'help') do |event|
-	event.channel.send_embed("Help menu") do |embed|
+	event.channel.send_embed() do |embed|
   	embed.title = "Hello sir, I'm Jarvis and I'm here to help you"
   	embed.url = "https://profile.intra.42.fr/users/bazuara"
 	embed.description = "This Bot is brought to you by [bazuara](https://profile.intra.42.fr/users/bazuara) for anyone who dares to use it. This are my actual commands:"
