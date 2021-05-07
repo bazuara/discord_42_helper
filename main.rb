@@ -4,6 +4,7 @@ require 'yaml'
 require 'discordrb'
 require 'json'
 require 'oauth2'
+require "pp"
 
 #bot config
 begin
@@ -37,7 +38,7 @@ end
 #Receives username, returns full name, email, ev points piscine and blackhole days"
 bot.command :info do |msg|
 	user = msg.content.split[2]
-	unless user == nil
+	begin
 		token = client.client_credentials.get_token
 		answer = token.get("/v2/users/#{user}").parsed
 		coalition = token.get("/v2/users/#{user}/coalitions").parsed[0]
@@ -55,8 +56,8 @@ bot.command :info do |msg|
 			time_to_blackhole = date - DateTime.now
 			embed.add_field(name: "Blackholed in", value: "#{time_to_blackhole.to_i} days", inline: true)
 		end
-	else
-		msg.respond "Necesito un usuario para hacer eso"
+	rescue
+		msg.respond "Something went wrong"
 	end
 end
 
