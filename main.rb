@@ -51,10 +51,12 @@ bot.command :info do |msg|
 			embed.add_field(name: "Email", value: answer['email'])
 			embed.add_field(name: "Piscine", value: answer['pool_month'].capitalize + ' ' + answer['pool_year'])
 			embed.add_field(name: "Evaluation points", value: answer['correction_point'].to_s, inline: true)
-			str_date = answer['cursus_users'].last['blackholed_at']
-			date = DateTime.parse(str_date)
-			time_to_blackhole = date - DateTime.now
-			embed.add_field(name: "Blackholed in", value: "#{time_to_blackhole.to_i} days", inline: true)
+			unless (answer['cursus_users'].last['blackholed_at'] == nil)
+				str_date = answer['cursus_users'].last['blackholed_at']
+				date = DateTime.parse(str_date)
+				time_to_blackhole = date - DateTime.now
+				embed.add_field(name: "Blackholed in", value: "#{time_to_blackhole.to_i} days", inline: true)
+			end
 		end
 	rescue
 		msg.respond "Something went wrong"
