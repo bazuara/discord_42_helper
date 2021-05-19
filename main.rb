@@ -42,12 +42,19 @@ bot.command :info do |msg|
 		token = client.client_credentials.get_token
 		answer = token.get("/v2/users/#{user}").parsed
 		coalition = token.get("/v2/users/#{user}/coalitions").parsed[0]
+		if coalition == nil
+			coa_name = "No coalition"
+			coa_col = "#000000"
+		else
+			coa_name = coalition['name']
+			coa_col = coalition['color']
+		end
 		msg.channel.send_embed do |embed|
 			embed.title = "#{user.capitalize}"
-			embed.colour = coalition['color']
+			embed.colour = coa_col
 			embed.thumbnail = Discordrb::Webhooks::EmbedThumbnail.new(url: answer['image_url'])
 			embed.add_field(name: "Nombre completo", value: answer['usual_full_name'])
-			embed.add_field(name: "Coalition", value: coalition['name'])
+			embed.add_field(name: "Coalition", value: coa_name)
 			embed.add_field(name: "Email", value: answer['email'])
 			embed.add_field(name: "Piscine", value: answer['pool_month'].capitalize + ' ' + answer['pool_year'])
 			embed.add_field(name: "Evaluation points", value: answer['correction_point'].to_s, inline: true)
