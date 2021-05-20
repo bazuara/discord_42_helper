@@ -25,7 +25,7 @@ Returns a help menu, listing all available commands.
 
 Returns *USERNAME* info as the following image indicates:
 
-![User_info](./resources/info_sample.png)
+![User_info](./resources/Info_sample.png)
 
 ### !42 megatron *MONTH YEAR*
 
