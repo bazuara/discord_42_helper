@@ -53,7 +53,7 @@ bot.command :info do |msg|
 			embed.title = "#{user.capitalize}"
 			embed.colour = coa_col
 			embed.thumbnail = Discordrb::Webhooks::EmbedThumbnail.new(url: answer['image_url'])
-			embed.add_field(name: "Nombre completo", value: answer['usual_full_name'])
+			embed.add_field(name: "Full Name", value: answer['usual_full_name'])
 			embed.add_field(name: "Coalition", value: coa_name)
 			embed.add_field(name: "Email", value: answer['email'])
 			embed.add_field(name: "Piscine", value: answer['pool_month'].capitalize + ' ' + answer['pool_year'])
