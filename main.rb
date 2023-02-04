@@ -53,7 +53,7 @@ bot.command :info do |msg|
 			embed.title = "#{user.capitalize}"
 			embed.colour = coa_col
 			embed.thumbnail = Discordrb::Webhooks::EmbedThumbnail.new(url: answer['image_url'])
-			embed.add_field(name: "Full Name", value: answer['usual_full_name'])
+			embed.add_field(name: "Nombre completo", value: answer['usual_full_name'])
 			embed.add_field(name: "Coalition", value: coa_name)
 			embed.add_field(name: "Email", value: answer['email'])
 			embed.add_field(name: "Piscine", value: answer['pool_month'].capitalize + ' ' + answer['pool_year'])
@@ -125,7 +125,7 @@ msg.respond "#{msg.content}"
 end
 
 #help function. List all avalible bot functions
-bot.message(with_text: 'help') do |event|
+bot.command :help do |event|
 	event.channel.send_embed() do |embed|
   	embed.title = "Hello sir, I'm Jarvis and I'm here to help you"
   	embed.url = "https://profile.intra.42.fr/users/bazuara"
